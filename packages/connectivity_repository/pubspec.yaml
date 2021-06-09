@@ -1,0 +1,9 @@
+name: connectivity_repository
+description: Dart package which manages the current connectivity state.
+publish_to: none
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  connectivity_plus: ^1.0.1
