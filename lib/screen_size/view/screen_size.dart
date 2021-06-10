@@ -12,6 +12,7 @@ class DecideLayout extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => DecideLayout());
   }
+
   const DecideLayout({Key? key}) : super(key: key);
 
   @override
@@ -21,33 +22,29 @@ class DecideLayout extends StatefulWidget {
 class _DecideLayout extends State<DecideLayout> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return LayoutBuilder(
-        builder: (context, constraints) {
-          print(constraints.maxWidth);
-          if (constraints.maxWidth > 800) {
-            return Text("PC");
-          }
-          else {
-            switch (BlocProvider.of<AuthenticationBloc>(context).state.status) {
-              case AuthenticationStatus.authenticated:
-              return HomePage();
+    return LayoutBuilder(builder: (context, constraints) {
+      print(constraints.maxWidth);
+      if (constraints.maxWidth > 800) {
+        return Text("PC");
+      } else {
+        switch (BlocProvider.of<AuthenticationBloc>(context).state.status) {
+          case AuthenticationStatus.authenticated:
+            return HomePage();
 
-                break;
-              case AuthenticationStatus.unauthenticated:
-                return LoginPage();
-                break;
-              case AuthenticationStatus.failed:
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: const Text("Wrong username or password.")));
-                break;
-              default:
-                break;
-            }
-          }
-
-          throw UnimplementedError();
+            break;
+          case AuthenticationStatus.unauthenticated:
+            return LoginPage();
+            break;
+          case AuthenticationStatus.failed:
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: const Text("Wrong username or password.")));
+            break;
+          default:
+            break;
         }
-      );
+      }
+
+      throw UnimplementedError();
+    });
   }
 }
