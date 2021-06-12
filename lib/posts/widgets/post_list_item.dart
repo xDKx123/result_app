@@ -10,11 +10,6 @@ class PostListItem extends StatelessWidget {
 
   final Post post;
 
-  String _getDate(String datetime) {
-    DateTime dateTime = DateTime.parse(datetime);
-    return DateFormat('dd.MM.yyyy').format(dateTime);
-  }
-
   //TODO: change icon depending od type of retrieval
   dynamic _getIcon(String infoType) {
     switch(infoType.toLowerCase()) {
@@ -27,7 +22,7 @@ class PostListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    //final textTheme = Theme.of(context).textTheme;
     return ListTile(
       leading: Icon(_getIcon(post.content['Info']['type'])),
       title: Text('${post.content['Vehicle details']['Make']}'),

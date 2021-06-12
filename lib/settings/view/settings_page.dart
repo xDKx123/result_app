@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:result_app/authentication/authentication.dart';
 import 'package:result_app/login/view/login_page.dart';
+import 'package:utility_repository/utility_repository.dart';
 
 ///Settings page, current only with sign out button
 class SettingsPage extends StatefulWidget {
@@ -21,31 +22,73 @@ class _SettingsPageState extends State<SettingsPage> {
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
+  _buildWeb() {
+    return SafeArea(
+      child:  Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width / 6,
+          ),
+          //_buildMobile(state),
+          Expanded(
+            child: _buildMobile(),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width / 6,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildMobile() {
+    return ListView(
+      children: [
+        Card(
+          child: InkWell(
+            onTap: () async {
+              context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
+
+              //Navigator.pushAndRemoveUntil(context, LoginPage.route(), (route) => false);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const ListTile(
+                leading: Icon(Icons.close),
+                title: const Text('Log Out'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-      body:
-          Card(
-            child: InkWell(
-              onTap: () async {
-                context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          switch (ScreenWidth.DetermineScreen(constraints.maxWidth)) {
+            case ScreenWidthStatus.ExtraSmall:
+              return _buildMobile();
 
-                //Navigator.pushAndRemoveUntil(context, LoginPage.route(), (route) => false);
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const ListTile(
-                    leading: Icon(Icons.close),
-                    title: const Text('Log Out'),
-                  ),
-                ],
-              ),
-            ),
-          ),
+            case ScreenWidthStatus.Small:
+              return _buildMobile();
+
+            case ScreenWidthStatus.Medium:
+              return _buildWeb();
+
+            case ScreenWidthStatus.Large:
+              return _buildWeb();
+          }
+        }
+      ),
     );
   }
 }

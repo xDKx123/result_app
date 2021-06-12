@@ -5,9 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:result_app/authentication/authentication.dart';
 import 'package:result_app/connectivity/bloc/connectivity_bloc.dart';
 import 'package:result_app/home/home.dart';
+import 'package:result_app/introduction/introduction.dart';
 import 'package:result_app/login/login.dart';
 import 'package:result_app/splash/splash.dart';
-import 'package:result_app/screen_size/screen_size.dart';
+import 'package:result_app/decide_layout/decide_layout.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -57,13 +58,12 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       builder: (context, child) {
-        print(child);
         return BlocListener<ConnectivityBloc, ConnectivityState>(
           listener: (context, state) {},
           child: BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-              _navigator.pushAndRemoveUntil<void>(DecideLayout.route(), (route) => false);
-              /*switch (state.status) {
+              //_navigator.pushAndRemoveUntil<void>(DecideLayout.route(), (route) => false);
+              switch (state.status) {
                 case AuthenticationStatus.authenticated:
                 //return HomePage();
                   _navigator.pushAndRemoveUntil<void>(
@@ -73,7 +73,7 @@ class _AppViewState extends State<AppView> {
                   break;
                 case AuthenticationStatus.unauthenticated:
                   _navigator.pushAndRemoveUntil<void>(
-                    LoginPage.route(),
+                    IntroductionPage.route(),
                         (route) => false,
                   );
                   break;
@@ -83,7 +83,7 @@ class _AppViewState extends State<AppView> {
                   break;
                 default:
                   break;
-              }*/
+              }
             },
             child: child,
           ),

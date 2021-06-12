@@ -20,39 +20,56 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  String token = "";
+  final GlobalKey<PostsListState> _key = GlobalKey();
 
-  @override
-  void initState() {
-    //getToken();
-    super.initState();
+
+  _homeButtonWidget() {
+    return IconButton(
+        onPressed: () async {
+          await _key.currentState?.refreshData();
+        },
+        icon: Icon(Icons.home),
+      );
   }
 
-/*  Future<void> getToken() async {
-    token = await LocalStorageHelper.getToken();
-    //print("Got token: " + token);
-    setState(() {
+  _homeButton(double width) {
+    switch (ScreenWidth.DetermineScreen(width)) {
+      case ScreenWidthStatus.Small:
+        return _homeButtonWidget();
+      case ScreenWidthStatus.Medium:
+       return _homeButtonWidget();
+      case ScreenWidthStatus.Large:
+        return _homeButtonWidget();
+      default:
+        return Container(width: 0);
+    }
+  }
 
-    });
-  }*/
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Result app'),
-        actions: [
-          IconButton(icon: Icon(Icons.settings), onPressed: () async {
-            Navigator.push(context, SettingsPage.route());
-            //setState(() { });
-          }),
-        ],
-      ),
-      body: BlocProvider(
-        ///if user connected fetch posts from server, else use localstorage
-        create: (BuildContext context) => PostBloc()..add(BlocProvider.of<ConnectivityBloc>(context).state.status == ConnectivityStatus.connected ? PostFetchedOnline() : PostFetchedOffline()),
-        child: PostsList(),
-      ),
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Result app'),
+          centerTitle: true,
+          actions: [
+            _homeButton(constraints.maxWidth),
+
+            IconButton(icon: Icon(Icons.settings), onPressed: () async {
+              Navigator.push(context, SettingsPage.route());
+              //setState(() { });
+            }
+            ),
+
+          ],
+        ),
+        body: BlocProvider(
+          ///if user connected fetch posts from server, else use local storage
+          create: (BuildContext context) => PostBloc()..add(BlocProvider.of<ConnectivityBloc>(context).state.status == ConnectivityStatus.connected ? PostFetchedOnline() : PostFetchedOffline()),
+          child: PostsList(key: _key),
+        ),
+      );
+    });
   }
 }

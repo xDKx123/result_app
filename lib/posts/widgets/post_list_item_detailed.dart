@@ -23,6 +23,54 @@ class PostListItemDetailed extends StatelessWidget {
 
   final Post post;
 
+  _buildMobile(Post post) {
+    return ListView(
+      padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+      children: [
+        VehicleDetails(
+          vehicleDetails: post.content['Vehicle details'] as Map<String, dynamic>,
+          serviceDetails: post.content['Service information'] as Map<String, dynamic>,
+          damagesDetails: post.content['Damages']['Damages'] as List<dynamic>,
+          accessoriesDetails: post.content['Accessories']['Accessories'] as List<dynamic>,
+          extrasDetails: post.content['Extras'] as Map<String, dynamic>,
+        ),
+        DeliveredBy(deliveredDetails: post.content['Delivered by'][0]),
+        ReceivedBy(receivedDetails: post.content['Received by'][0]),
+      ],
+    );
+  }
+
+  _buildWeb(BuildContext context, Post post) {
+    return SafeArea(
+      child: Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width / 6,
+          ),
+
+          Expanded(child: ListView(
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            children: [
+              VehicleDetails(
+                vehicleDetails: post.content['Vehicle details'] as Map<String, dynamic>,
+                serviceDetails: post.content['Service information'] as Map<String, dynamic>,
+                damagesDetails: post.content['Damages']['Damages'] as List<dynamic>,
+                accessoriesDetails: post.content['Accessories']['Accessories'] as List<dynamic>,
+                extrasDetails: post.content['Extras'] as Map<String, dynamic>,
+              ),
+              DeliveredBy(deliveredDetails: post.content['Delivered by'][0]),
+              ReceivedBy(receivedDetails: post.content['Received by'][0]),
+            ],
+          ),),
+
+          Container(
+              width: MediaQuery.of(context).size.width / 6,
+          ),
+        ],
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +78,22 @@ class PostListItemDetailed extends StatelessWidget {
       appBar: AppBar(
         title: Text(Utility.getDate(post.content['date'][0]['dates']['date'].toString())),
       ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
-        children: [
-          VehicleDetails(
-            vehicleDetails: post.content['Vehicle details'] as Map<String, dynamic>,
-            serviceDetails: post.content['Service information'] as Map<String, dynamic>,
-            damagesDetails: post.content['Damages']['Damages'] as List<dynamic>,
-            accessoriesDetails: post.content['Accessories']['Accessories'] as List<dynamic>,
-            extrasDetails: post.content['Extras'] as Map<String, dynamic>,
-          ),
-          DeliveredBy(deliveredDetails: post.content['Delivered by'][0]),
-          ReceivedBy(receivedDetails: post.content['Received by'][0]),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          switch (ScreenWidth.DetermineScreen(constraints.maxWidth)) {
+            case ScreenWidthStatus.ExtraSmall:
+              return _buildMobile(post);
+
+            case ScreenWidthStatus.Small:
+              return _buildMobile(post);
+
+            case ScreenWidthStatus.Medium:
+              return _buildWeb(context, post);
+
+            case ScreenWidthStatus.Large:
+              return _buildWeb(context, post);
+          }
+        }
       ),
     );
   }

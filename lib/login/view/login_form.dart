@@ -17,7 +17,9 @@ class LoginForm extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              const SnackBar(
+                  content: Text('Authentication Failure'),
+              ),
             );
         }
       },
@@ -65,6 +67,10 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
+          textInputAction: TextInputAction.go,
+          onSubmitted: (_) {
+            context.read<LoginBloc>().add(const LoginSubmitted());
+          },
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
