@@ -85,7 +85,7 @@ class PostsListState extends State<PostsList> {
       builder: (context, state) {
           return LayoutBuilder(
             builder: (context, constraints) {
-              switch (ScreenWidth.DetermineScreen(constraints.maxWidth)) {
+              switch (ScreenWidth.determineScreen(constraints.maxWidth)) {
                 case ScreenWidthStatus.ExtraSmall:
                   return _buildMobile(state);
 

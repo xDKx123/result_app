@@ -60,12 +60,15 @@ class HttpMethods {
 
     dynamic response = await httpPostRequest(loginRoute, map);
 
-    ///200 - ok
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+    return response;
+    switch (response.statusCode) {
+      case 200:
+        return jsonDecode(response.body);
+      default:
+        return jsonDecode(response.body);
     }
 
-    return jsonDecode(response);
+
   }
 
   ///Request contracts

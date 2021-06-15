@@ -6,9 +6,7 @@ import 'package:result_app/authentication/authentication.dart';
 import 'package:result_app/connectivity/bloc/connectivity_bloc.dart';
 import 'package:result_app/home/home.dart';
 import 'package:result_app/introduction/introduction.dart';
-import 'package:result_app/login/login.dart';
 import 'package:result_app/splash/splash.dart';
-import 'package:result_app/decide_layout/decide_layout.dart';
 
 class App extends StatelessWidget {
   const App({

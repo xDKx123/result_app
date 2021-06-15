@@ -26,5 +26,7 @@ class LoginPasswordChanged extends LoginEvent {
 }
 
 class LoginSubmitted extends LoginEvent {
-  const LoginSubmitted();
+  const LoginSubmitted(this.context);
+
+  final BuildContext context;
 }

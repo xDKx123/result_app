@@ -10,10 +10,10 @@ class LocalStorageHelper {
   static final LocalStorageHelper instance = LocalStorageHelper._privateConstructor();
 
   Future<LocalStorage> get storage async {
-    if (_storage != null) {
+    /*if (_storage != null) {
       return _storage;
     }
-    _storage = LocalStorage('my_data');
+    _storage = LocalStorage('my_data');*/
     return _storage;
   }
 
@@ -45,7 +45,7 @@ class LocalStorageHelper {
     //jsonEncode(posts);
   }
 
-  ///Retrive contracts from local storage
+  ///Retrieve contracts from local storage
   static Future<dynamic> getContracts() async {
     await _storage.ready;
     LocalStorage ls = await instance.storage;

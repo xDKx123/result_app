@@ -13,7 +13,6 @@ import 'package:result_app/posts/posts.dart';
 import 'package:http/http.dart' as http;
 import 'package:utility_repository/utility_repository.dart';
 //import 'package:rxdart/rxdart.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:result_app/authentication/authentication.dart';
 
 part 'post_event.dart';
@@ -100,7 +99,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           );
         }).toList();
 
-        break;
       case 401: //token expired
         //Izpišemo obvestilo, da je token potekel
         ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(SnackBar(content: Text(body['Message'])));
@@ -131,7 +129,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           content: json as Map<String, dynamic>
       );
     }).toList();
-    throw Exception('error fetching posts');
   }
 
 

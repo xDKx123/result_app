@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:connectivity_repository/connectivity_repository.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 part 'connectivity_event.dart';

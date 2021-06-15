@@ -33,7 +33,7 @@ class _HomePage extends State<HomePage> {
   }
 
   _homeButton(double width) {
-    switch (ScreenWidth.DetermineScreen(width)) {
+    switch (ScreenWidth.determineScreen(width)) {
       case ScreenWidthStatus.Small:
         return _homeButtonWidget();
       case ScreenWidthStatus.Medium:

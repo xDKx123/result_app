@@ -1,11 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:utility_repository/utility_repository.dart';
-//import 'package:authentication_repository/src/http_methods.dart';
-//import 'package:localstorage/localstorage.dart';
 
-enum AuthenticationStatus { unknown, authenticated, unauthenticated, failed }
+enum AuthenticationStatus { unknown, authenticated, unauthenticated, failed, wrongUsernameOrPassword }
 
 class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
@@ -25,22 +23,45 @@ class AuthenticationRepository {
   Future<void> logIn({
     required String username,
     required String password,
+    required BuildContext context,
   }) async {
-    dynamic res = await HttpMethods.login(username, password);
+    dynamic response = await HttpMethods.login(username, password);
 
-    if (res == null) {
+    if (response == null) {
       _controller.add(AuthenticationStatus.failed);
       //print("is null");
       return;
     }
 
+    dynamic body = jsonDecode(response.body);
+
+    ///200 success
+    ///401 wrong username/password
+    switch (response.statusCode) {
+      case 200:
+        _controller.add(AuthenticationStatus.authenticated);
+        await LocalStorageHelper.setToken(body['token']);
+        //return jsonDecode(response.body);
+        break;
+      case 401:
+        _controller.add(AuthenticationStatus.wrongUsernameOrPassword);
+        ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(SnackBar(content: Text(body["Message"])));
+        break;
+      default:
+        _controller.add(AuthenticationStatus.failed);
+        ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(SnackBar(content: const Text("Unknown error.")));
+        break;
+        //return jsonDecode(response.body);
+    }
+
+    /*
     if (res.containsKey('token')) {
       _controller.add(AuthenticationStatus.authenticated);
       await LocalStorageHelper.setToken(res['token']);
     }
     else {
       _controller.add(AuthenticationStatus.failed);
-    }
+    }*/
 
 
     //print("login prožen");

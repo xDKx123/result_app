@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:result_app/login/login.dart';
 import 'package:formz/formz.dart';
 
@@ -26,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is LoginPasswordChanged) {
       yield _mapPasswordChangedToState(event, state);
     } else if (event is LoginSubmitted) {
-      yield* _mapLoginSubmittedToState(event, state);
+      yield* _mapLoginSubmittedToState(event, state, event.context);
     }
   }
 
@@ -55,11 +56,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _mapLoginSubmittedToState(
     LoginSubmitted event,
     LoginState state,
+    BuildContext context,
   ) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
         await _authenticationRepository.logIn(
+          context: context,
           username: state.username.value,
           password: state.password.value,
         );

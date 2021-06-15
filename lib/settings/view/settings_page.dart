@@ -1,8 +1,6 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:result_app/authentication/authentication.dart';
-import 'package:result_app/login/view/login_page.dart';
 import 'package:utility_repository/utility_repository.dart';
 
 ///Settings page, current only with sign out button
@@ -75,7 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          switch (ScreenWidth.DetermineScreen(constraints.maxWidth)) {
+          switch (ScreenWidth.determineScreen(constraints.maxWidth)) {
             case ScreenWidthStatus.ExtraSmall:
               return _buildMobile();
 

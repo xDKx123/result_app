@@ -84,7 +84,7 @@ class PostListItemDetailed extends StatelessWidget {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          switch (ScreenWidth.DetermineScreen(constraints.maxWidth)) {
+          switch (ScreenWidth.determineScreen(constraints.maxWidth)) {
             case ScreenWidthStatus.ExtraSmall:
               return _buildMobile(post);
 
