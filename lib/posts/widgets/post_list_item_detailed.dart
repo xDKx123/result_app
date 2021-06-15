@@ -77,6 +77,10 @@ class PostListItemDetailed extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(Utility.getDate(post.content['date'][0]['dates']['date'].toString())),
+        centerTitle: true,
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -116,10 +120,10 @@ class VehicleDetails extends StatelessWidget{
   final Map<String, dynamic> extrasDetails;
 
 
-  Widget _element(Icon leadingIcon, String Title, List<Widget> subElements) {
+  Widget _element(Icon leadingIcon, String title, List<Widget> subElements) {
     return ExpansionTile(
       leading: leadingIcon,
-      title: Text(Title),
+      title: Text(title),
       children: subElements,
     );
   }
@@ -127,7 +131,11 @@ class VehicleDetails extends StatelessWidget{
   Widget _information(String title, dynamic info) {
     return ListTile(
       leading: Text(title + ':'),
-      trailing: Text(info.toString()),
+      trailing: RichText(
+        text: TextSpan(
+            text: info.toString(),
+        ),
+      ),
     );
   }
 
@@ -146,7 +154,7 @@ class VehicleDetails extends StatelessWidget{
                   _information('Year', vehicleDetails["Year"]),
                   _information('Plate number', vehicleDetails["Plate number"]),
                   _information('Chassis number', vehicleDetails["Chassis number"]),
-                  _information('Engine', vehicleDetails["ccm"].toString() + "ccm\t\t" + vehicleDetails["kW"].toString() + "kw"),
+                  _information('Engine', vehicleDetails["ccm"].toString() + "ccm  " + vehicleDetails["kW"].toString() + "kw"),
                   _information('Fuel', vehicleDetails["Fuel"]),
                   _information('Color external', vehicleDetails["Color external"]),
                   _information('Color internal', vehicleDetails["Color internal"]),

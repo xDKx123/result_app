@@ -66,7 +66,7 @@ class _HomePage extends State<HomePage> {
         ),
         body: BlocProvider(
           ///if user connected fetch posts from server, else use local storage
-          create: (BuildContext context) => PostBloc()..add(BlocProvider.of<ConnectivityBloc>(context).state.status == ConnectivityStatus.connected ? PostFetchedOnline() : PostFetchedOffline()),
+          create: (BuildContext context) => PostBloc()..add(BlocProvider.of<ConnectivityBloc>(context).state.status == ConnectivityStatus.connected ? PostFetchedOnline(context) : PostFetchedOffline()),
           child: PostsList(key: _key),
         ),
       );

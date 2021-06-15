@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:utility_repository/src/local_storage_helper.dart';
 import 'package:utility_repository/src/verification_exception.dart';
+import 'package:flutter/material.dart';
 
 ///Class for handling post and get requests
 class HttpMethods {
@@ -69,9 +70,10 @@ class HttpMethods {
 
   ///Request contracts
   static Future<dynamic> getContracts(String token) async {
-    dynamic response = await httpGetRequest(contractsRoute, token);
+    final response = await httpGetRequest(contractsRoute, token);
 
-    final body = jsonDecode(response.body);
+
+/*    final body = jsonDecode(response.body);
     switch (response.statusCode) {
       case 200:
         await LocalStorageHelper.setContracts(body);
@@ -80,10 +82,8 @@ class HttpMethods {
 
       case 401: //token expired
         throw VerificationException(body['Message']);
-        //return 0;
-    //logout?
     }
-
+*/
     return response;
   }
 }

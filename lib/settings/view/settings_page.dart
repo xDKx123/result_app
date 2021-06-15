@@ -71,6 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
+        centerTitle: true,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {

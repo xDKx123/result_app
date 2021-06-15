@@ -6,7 +6,9 @@ abstract class PostEvent extends Equatable {
 }
 
 class PostFetchedOnline extends PostEvent {
-  PostFetchedOnline() : super();
+  PostFetchedOnline(this.context) : super();
+
+  final BuildContext context;
 }
 
 class PostFetchedOffline extends PostEvent {

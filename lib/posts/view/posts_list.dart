@@ -2,6 +2,7 @@
 import 'package:connectivity_repository/connectivity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:result_app/authentication/bloc/authentication_bloc.dart';
 import 'package:result_app/connectivity/bloc/connectivity_bloc.dart';
 import 'package:result_app/posts/posts.dart';
 import 'package:result_app/posts/widgets/post_list_item.dart';
@@ -26,7 +27,7 @@ class PostsListState extends State<PostsList> {
     switch(BlocProvider.of<ConnectivityBloc>(context).state.status) {
       case ConnectivityStatus.connected:
         setState(() {
-          PostBloc()..add(PostFetchedOnline());
+          PostBloc()..add(PostFetchedOnline(context));
         });
         break;
       case ConnectivityStatus.disconnected:
@@ -61,7 +62,7 @@ class PostsListState extends State<PostsList> {
         return const Center(child: Text('failed to fetch posts'));
       case PostStatus.success:
         if (state.posts.isEmpty) {
-          return const Center(child: Text('no posts'));
+          return const Center(child: Text('No posts to display'));
         }
         return RefreshIndicator(
           key: refreshKey,
